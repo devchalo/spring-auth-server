@@ -4,38 +4,6 @@
 
 This `docker-compose.yaml` file defines the services that make up your application, and their configurations, to facilitate shared environments and simplify the setting up process.
 
-Create file .env in the scripts directory of the project and add the following environment variables:
-
-```bash
-# Description: Environment variables for the project
-# Postgres Config
-POSTGRES_USER=postgres
-POSTGRES_PW=nowhere
-POSTGRES_DB=oauth_nowhere
-
-# PGAdmin Config
-PGADMIN_EMAIL=postgres@nowhere.com
-PGADMIN_PW=nowhere
-
-# Authorization Server Config
-SERVER_PORT=9000
-DATASOURCE_URL=jdbc:postgresql://localhost:5433/oauth_nowhere
-DB_USERNAME=postgres
-DB_PASSWORD=nowhere
-
-PRIVATE_KEY= #REQUIRED
-PUBLIC_KEY= #REQUIRED
-# Github OAuth Config
-GITHUB_CLIENT_ID=
-GITHUB_CLIENT_SECRET=
-# Google OAuth Config
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
-
-#Redis Config point to redis service as host
-REDIS_HOST=redis
-REDIS_PORT=6379
-```
 ### Services
 
 There are several services defined in this file:
@@ -141,6 +109,7 @@ Following are the environment variables used in this configuration:
 - `GOOGLE_CLIENT_SECRET` - This is the client secret provided by Google for OAuth 2.0 Applications. This is used when exchanging the auth code for access tokens.
 - `REDIS_HOST` - This is the host name of the Redis Cache service.
 - `REDIS_PORT` - This is the port number of the Redis Cache service.
+- `REDIS_PW` - This is the password for the Redis Cache service.
 
 
 These values are stored in environment variables to ensure sensitive information is not available in your application code and to allow for easy updating of these values.
