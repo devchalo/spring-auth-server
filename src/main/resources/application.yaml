@@ -1,0 +1,90 @@
+server:
+  port:  ${SERVER_PORT:9000}
+  servlet:
+    context-path: /auth-server
+  forward-headers-strategy: native
+
+spring:
+  data:
+    redis:
+      port: ${REDIS_PORT:6379}
+      host: ${REDIS_HOST:localhost}
+      select-database: 0
+  session:
+    store-type: redis
+  security:
+    oauth2:
+      client:
+        registration:
+          google-idp:
+            provider: google
+            client-id: ${GOOGLE_CLIENT_ID:google-client-id}
+            client-secret: ${GOOGLE_CLIENT_SECRET:google-client-secret}
+            scope: openid, https://www.googleapis.com/auth/userinfo.profile, https://www.googleapis.com/auth/userinfo.email
+            client-name: Sign in with Google
+          github-idp:
+            provider: github
+            client-id: ${GITHUB_CLIENT_ID:github-client-id}
+            client-secret: ${GITHUB_CLIENT_SECRET:github-client-secret}
+            scope:
+              - user:email
+              - read:user
+            client-name: Sign in with GitHub
+        provider:
+          google:
+            user-name-attribute: email
+          github:
+            authorization-uri: https://github.com/login/oauth/authorize
+            token-uri: https://github.com/login/oauth/access_token
+            user-info-uri: https://api.github.com/user
+            user-name-attribute: email
+  threads:
+    virtual:
+      enabled: true
+  application:
+    name: authorization-server
+  datasource:
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5433/oauth_nowhere}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:nowhere}
+  flyway:
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    enabled: true
+
+  jpa:
+    show-sql: true
+    properties.hibernate:
+      properties.hibernate.dialect: org.hibernate.dialect.PostgresSQLDialect
+    database: postgresql
+  main:
+    allow-bean-definition-overriding: true
+    keep-alive: true
+rsa-key:
+  private-key: ${PRIVATE_KEY:classpath:private-pkcs8.pem}
+  public-key: ${PUBLIC_KEY:classpath:public.pem}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui
+  show-actuator: true
+  show-oauth2-endpoints: true
+  enable-spring-security: true
+
+## log in debug all oauth2
+logging:
+  level:
+    root: INFO
+    io:
+      lettuce: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO
+    org.springframework.security.oauth2.client: INFO
+    org.springframework.boot.autoconfigure: INFO
+
+##
+
+
